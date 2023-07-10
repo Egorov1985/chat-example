@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -19,6 +21,13 @@ public class UserService {
 
     public User findByUser (String email){
         return userRepository.findByEmail(email);
+    }
+
+    public User findById(Long id){
+        return userRepository.findById(id).orElse(null);
+    }
+    public List<User> findByAllUsers(){
+        return userRepository.findAll();
     }
 
     public boolean createUser (User user){

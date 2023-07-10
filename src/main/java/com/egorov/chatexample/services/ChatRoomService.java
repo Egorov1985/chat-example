@@ -3,10 +3,12 @@ package com.egorov.chatexample.services;
 import com.egorov.chatexample.models.ChatRoom;
 import com.egorov.chatexample.models.User;
 import com.egorov.chatexample.repositories.ChatRoomRepository;
+import com.egorov.chatexample.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
+    private final UserRepository userRepository;
 
     public ChatRoom findById(Long id){
         return chatRoomRepository.findById(id).orElse(null);
@@ -25,11 +28,12 @@ public class ChatRoomService {
         return chatRoomRepository.findAll();
     }
 
-    public void createChatRoom(String chatName, User user){
+    public void createChatRoom(Long recipientId, Principal principal){
+        Long senderId = userRepository.findByEmail(principal.getName()).getId();
         ChatRoom chatRoom = new ChatRoom();
-        chatRoom.setCreatDateChat(new Date());
-        chatRoom.setChatId(chatName);
-        chatRoom.setUser(user);
+        chatRoom.setChatId(String.valueOf(recipientId+senderId));
+        chatRoom.setSenderId(senderId);
+        chatRoom.setRecipientId(recipientId);
         chatRoomRepository.save(chatRoom);
     }
 

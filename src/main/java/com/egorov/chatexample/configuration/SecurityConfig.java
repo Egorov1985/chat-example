@@ -24,8 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests().antMatchers("/", "/login", "/registration", "/logout").permitAll()
-                .antMatchers("/chat", "/chatRooms").authenticated()
-                .and().formLogin().loginPage("/login").failureUrl("/").defaultSuccessUrl("/chatRooms")
+                .antMatchers("/chat", "/chatRooms", "/user" , "user/**", "/users", "/chatRoom/**" ).authenticated()
+                .and().formLogin().loginPage("/login").failureUrl("/").defaultSuccessUrl("/users")
                 .and().rememberMe()
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout");
 

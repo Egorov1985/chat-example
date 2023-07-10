@@ -48,7 +48,7 @@ public class User implements UserDetails {
 
     @PrePersist
     private void init(){
-        createDate = new SimpleDateFormat("HH:mm:ss").format(new Date());
+        createDate = new SimpleDateFormat("dd:MM:yyyy HH:mm").format(new Date());
     }
 
     @Override
